@@ -1,0 +1,168 @@
+/* ==========================================================
+   GLOBAL SCROLL LOCK (MOBILE + DESKTOP SAFE)
+   ========================================================== */
+html.wpfa-lock,
+body.wpfa-lock {
+    overflow: hidden !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: fixed;
+    touch-action: none;
+    overscroll-behavior: none;
+}
+
+/* ==========================================================
+   MULTISCROLL NAV
+   ========================================================== */
+body.wpfa-lock #multiscroll-nav {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+#multiscroll-nav {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ==========================================================
+   FLOATING AUDIO PLAYER
+   ========================================================== */
+.wpfa-container {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 9999;
+}
+
+.wpfa-toggle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #c78665;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+    overflow: hidden; /* Ensures the spinning icon stays inside */
+}
+
+.wpfa-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Common Icon Styles */
+.wpfa-icon {
+    fill: #fff;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* We handle transform in the keyframes/state classes */
+    transform: translate(-50%, -50%); 
+    pointer-events: none;
+}
+
+/* ==========================================================
+   SPINNING ANIMATION
+   ========================================================== */
+@keyframes wpfa-spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* ==========================================================
+   PLAY / PAUSE STATE LOGIC
+   ========================================================== */
+
+/* 1. STATE: PLAYING -> Disc Visible & Spinning */
+.wpfa-playing .wpfa-icon-play {
+    display: block; 
+    animation: wpfa-spin 3s linear infinite;
+}
+
+/* Hide the Pause bars (we rely on the spinning disc to show activity) */
+.wpfa-playing .wpfa-icon-pause {
+    display: none;
+}
+
+
+/* 2. STATE: PAUSED -> Disc Visible & Static (Stopped) */
+.wpfa-paused .wpfa-icon-play {
+    display: none; /* Stop spinning */
+}
+
+.wpfa-paused .wpfa-icon-pause {
+    display: block;
+}
+
+
+/* ==========================================================
+   SPLASH SCREEN
+   ========================================================== */
+#wpfa-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    
+    /* Update this URL if needed */
+    background-image: url('https: //images.unsplash.com/photo-1765871319901-0aaafe3f1a2a');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#wpfa-splash.wpfa-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.wpfa-splash-inner {
+    transform: scale(1);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#wpfa-splash.wpfa-hidden .wpfa-splash-inner {
+    transform: scale(0.8);
+}
+
+
+/* ==========================================================
+   OPEN INVITATION BUTTON
+   ========================================================== */
+#wpfa-start {
+    padding: 14px 30px;
+    border-radius: 30px;
+    border: none;
+    background: #ffffff;
+    color: #c78665;
+    font-family: 'Cormorant', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 21px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#wpfa-start:hover {
+    background: #c78665;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
